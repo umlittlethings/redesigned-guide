@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Framingham Risk Score API Docs</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>🩺 Framingham Risk Score API</h1>
+      <p>
+        REST API untuk menghitung risiko penyakit jantung berdasarkan data medis
+        pengguna.
+      </p>
+    </header>
+
+    <main>
+      <section>
+        <h2>🔗 Endpoint</h2>
+        <code>POST /api/framingham</code>
+      </section>
+
+      <section>
+        <h2>📥 Request Body</h2>
+        <pre>
+{
+  "age": 45,
+  "gender": "male",
+  "totalCholesterol": 210,
+  "hdlCholesterol": 50,
+  "systolicBP": 130,
+  "isSmoker": true,
+  "isDiabetic": false
+}
+      </pre
+        >
+      </section>
+
+      <section>
+        <h2>📤 Response</h2>
+        <pre>
+{
+  "riskScore": 18.54,
+  "riskLevel": "medium",
+  "message": "Pasien memiliki risiko medium terkena penyakit jantung."
+}
+      </pre
+        >
+      </section>
+
+      <section>
+        <h2>📊 Risk Level</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Skor</th>
+              <th>Kategori Risiko</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>&lt; 10</td>
+              <td>Low</td>
+            </tr>
+            <tr>
+              <td>10 - 19.9</td>
+              <td>Medium</td>
+            </tr>
+            <tr>
+              <td>&ge; 20</td>
+              <td>High</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>📦 Tech Stack</h2>
+        <ul>
+          <li>Node.js</li>
+          <li>Express.js</li>
+          <li>dotenv</li>
+          <li>CORS</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>👨‍💻 Author</h2>
+        <p>
+          <strong>Wayan Christian Pradayana</strong><br />
+          Informatics Engineering, Universitas Brawijaya<br />
+          <a href="https://github.com/umlittlethings" target="_blank"
+            >chrispradayana@gmail.com</a
+          >
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>© 2025 Framingham Risk Score API. Lab MGM License.</p>
+    </footer>
+  </body>
+</html>
