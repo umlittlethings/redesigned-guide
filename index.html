@@ -32,10 +32,10 @@
   "hdlCholesterol": 50,
   "systolicBP": 130,
   "isSmoker": true,
-  "isDiabetic": false
+  "isDiabetic": false,
+  "restingHeartRates": [78, 80, 82]
 }
-  </pre
-        >
+        </pre>
       </section>
 
       <section>
@@ -43,12 +43,13 @@
         <pre>
 {
   "user": "John Doe",
-  "riskScore": 18.54,
+  "riskScore": 18,
   "riskLevel": "medium",
-  "message": "Pasien memiliki risiko medium terkena penyakit jantung."
+  "riskPercentage": "5-15%",
+  "avgHeartRate": 80,
+  "message": "Pasien memiliki risiko medium (5-15%) terkena penyakit jantung dalam 10 tahun ke depan."
 }
-  </pre
-        >
+        </pre>
       </section>
 
       <section>
@@ -58,20 +59,24 @@
             <tr>
               <th>Skor</th>
               <th>Kategori Risiko</th>
+              <th>Estimasi Risiko 10 Tahun</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>&lt; 10</td>
+              <td>&le; 9</td>
               <td>Low</td>
+              <td>&le; 5%</td>
             </tr>
             <tr>
-              <td>10 - 19.9</td>
+              <td>10 - 19</td>
               <td>Medium</td>
+              <td>5-15%</td>
             </tr>
             <tr>
               <td>&ge; 20</td>
               <td>High</td>
+              <td>&gt; 15%</td>
             </tr>
           </tbody>
         </table>
