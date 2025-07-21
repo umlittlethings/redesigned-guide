@@ -3,31 +3,54 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Framingham Risk Score API Docs</title>
+    <title>Framingham & ASCVD Risk Score API Docs</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header>
-      <h1>🩺 Framingham Risk Score API</h1>
+      <h1>🩺 Framingham & ASCVD Risk Score API</h1>
       <p>
         REST API untuk menghitung risiko penyakit jantung berdasarkan data medis
-        pengguna.
+        pengguna. Mendukung perhitungan <b>Framingham</b> dan <b>ASCVD</b>.
       </p>
     </header>
 
+    <
     <main>
       <section>
         <h2>🔗 Endpoint</h2>
-        <code>POST /api/framingham</code>
+        <ul>
+          <li>
+            <code>POST /api/framingham</code>
+            <code>POST /api/ascvd</code>
+            <span>- Hitung & simpan risiko Framingham & ASCVD</span>
+          </li>
+          <li>
+            <code>GET /api/framingham/user?userId=...</code>
+            <code>GET /api/ascvd/user?userId=...</code>
+            <span>- Ambil data Framingham dan ascvd user</span>
+          </li>
+          <li>
+            <code>PUT /api/framingham/user?userId=...</code>
+            <code>PUT /api/ascvd/user?userId=...</code>
+            <span>- Update data Framingham atau ASCVD user</span>
+          </li>
+          <li>
+            <code>DELETE /api/framingham/user?userId=...</code>
+            <code>DELETE /api/ascvd/user?userId=...</code>
+            <span>- Hapus data Framingham atau ASCVD user</span>
+          </li>
+        </ul>
       </section>
 
       <section>
-        <h2>📥 Request Body</h2>
+        <h2>📥 Request Body (POST /api/framingham)</h2>
         <pre>
 {
-  "user": "John Doe",
+  "name": "John Doe",
   "age": 45,
   "gender": "male",
+  "race": "Afrika-Amerika",
   "totalCholesterol": 210,
   "hdlCholesterol": 50,
   "systolicBP": 130,
@@ -39,21 +62,83 @@
       </section>
 
       <section>
-        <h2>📤 Response</h2>
+        <h2>📤 Contoh Response (POST /api/framingham)</h2>
         <pre>
 {
-  "user": "John Doe",
-  "riskScore": 18,
-  "riskLevel": "medium",
-  "riskPercentage": "5-15%",
-  "avgHeartRate": 80,
-  "message": "Pasien memiliki risiko medium (5-15%) terkena penyakit jantung dalam 10 tahun ke depan."
+  "user": {
+    "id": "uuid",
+    "name": "John Doe",
+    "age": 45,
+    "gender": "male",
+    "race": "Afrika-Amerika"
+  },
+  "framingham": {
+    "riskScore": 18,
+    "riskLevel": "medium",
+    "riskPercentage": "5-15%",
+    "avgHeartRate": 80,
+    "message": "Framingham: Pasien memiliki risiko medium (5-15%) terkena penyakit jantung dalam 10 tahun ke depan.",
+    "assessmentDate": "2025-07-21T12:00:00.000Z"
+  },
+  "ascvd": {
+    "ascvdScore": 8,
+    "ascvdLevel": "medium",
+    "ascvdMessage": "ASCVD: Risiko Sedang (6-15%)",
+    "assessmentDate": "2025-07-21T12:00:00.000Z"
+  }
 }
         </pre>
       </section>
 
       <section>
-        <h2>📊 Risk Level</h2>
+        <h2>📤 Contoh GET Framingham (by userId)</h2>
+        <pre>
+GET /api/framingham/user?userId=6ffb4304-e550-4124-9e0f-cf2854042935
+
+Response:
+{
+  "user": {
+    "id": "6ffb4304-e550-4124-9e0f-cf2854042935",
+    "name": "John Doe",
+    "age": 45,
+    "gender": "male"
+  },
+  "framingham": {
+    "score": 18,
+    "level": "medium",
+    "percentage": "5-15%",
+    "message": "Framingham: Pasien memiliki risiko medium (5-15%) terkena penyakit jantung dalam 10 tahun ke depan.",
+    "assessmentDate": "2025-07-21T12:00:00.000Z"
+  }
+}
+        </pre>
+      </section>
+
+      <section>
+        <h2>📤 Contoh GET ASCVD (by userId)</h2>
+        <pre>
+GET /api/ascvd/user?userId=6ffb4304-e550-4124-9e0f-cf2854042935
+
+Response:
+{
+  "user": {
+    "id": "6ffb4304-e550-4124-9e0f-cf2854042935",
+    "name": "John Doe",
+    "age": 45,
+    "gender": "male"
+  },
+  "ascvd": {
+    "score": 8,
+    "level": "medium",
+    "message": "ASCVD: Risiko Sedang (6-15%)",
+    "assessmentDate": "2025-07-21T12:00:00.000Z"
+  }
+}
+        </pre>
+      </section>
+
+      <section>
+        <h2>📊 Risk Level (Framingham)</h2>
         <table>
           <thead>
             <tr>
@@ -75,6 +160,36 @@
             </tr>
             <tr>
               <td>&ge; 20</td>
+              <td>High</td>
+              <td>&gt; 15%</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section>
+        <h2>📊 Risk Level (ASCVD)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Skor</th>
+              <th>Kategori Risiko</th>
+              <th>Estimasi Risiko 10 Tahun</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0 - 5</td>
+              <td>Low</td>
+              <td>0-5%</td>
+            </tr>
+            <tr>
+              <td>6 - 10</td>
+              <td>Medium</td>
+              <td>6-15%</td>
+            </tr>
+            <tr>
+              <td>&gt; 10</td>
               <td>High</td>
               <td>&gt; 15%</td>
             </tr>
@@ -107,7 +222,7 @@
     </main>
 
     <footer>
-      <p>© 2025 Framingham Risk Score API. Lab MGM License.</p>
+      <p>© 2025 Framingham & ASCVD Risk Score API. Lab MGM License.</p>
     </footer>
   </body>
 </html>
